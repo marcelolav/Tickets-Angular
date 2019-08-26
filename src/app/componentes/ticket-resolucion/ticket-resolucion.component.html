@@ -1,0 +1,232 @@
+<div class="container">
+  <h3>Tickets iniciados sin respuesta:</h3>
+  <table class="table mt-10">
+    <thead>
+      <tr>
+        <th>Fecha Ingreso</th>
+        <th>Hora Ingreso</th>
+        <th>Hall</th>
+        <th>Equipo</th>
+        <th>Desperfecto</th>
+        <th>ACCION</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of tickets" [ngClass]="{
+                                                  'cerrado':dt.estadoTicket === 'Cerrado', 
+                                                  'pendiente':dt.estadoTicket === 'Pendiente',
+                                                  'espera': dt.estadoTicket === 'En espera de repuestos'
+                                                }">
+        <td class="d-none"> {{dt.id}} </td>
+        <td class="d-none"> {{dt.evaluacionTecnica}}</td>
+        <td class="d-none"> {{dt.resolucionTecnica}} </td>
+        <td class="d-none"> {{dt.estadoTicket}} </td>
+        <td> {{dt.fechaIngreso}} </td>
+        <td> {{dt.horaIngreso}} </td>
+        <td> {{dt.hall}} </td>
+        <td> {{dt.nombreEquipo}} </td>
+        <td> {{dt.desperfecto}} </td>
+        <td>
+          <button title="Evaluar" class="btn btn-success mr-2"
+            *ngIf="dt.estadoTicket !== 'Evaluado' && dt.estadoTicket !== 'Cerrado' && dt.estadoTicket !== 'En espera de repuestos'" (click)="openModal(evaluacion, dt)">
+            <i class="fas fa-pencil-alt"></i> Evaluar
+          </button>
+          <button title="Solucionar" class="btn btn-success mr-2" *ngIf="dt.estadoTicket === 'Evaluado' && dt.estadoTicket !== 'Cerrado'" (click)="openModal(solucion, dt)">
+            <i class="fas fa-pencil-alt"></i> Solucionar
+          </button>
+          <button type="button" class="btn btn-secondary ml-2" *ngIf="dt.estadoTicket === 'Cerrado'" (click)="openModal(editaCerrado, dt)">
+            <i class="far fa-edit"></i> Editar Cerrado
+          </button>
+          <button type="button" class="btn btn-success" *ngIf="dt.estadoTicket === 'En espera de repuestos'" (click)="openModal(solucion,dt)">
+              <i class="far fa-edit"></i> Recibir Repuesto
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Template modal para evaluacion -->
+<ng-template #evaluacion>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Evaluación del problema</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="text" id="fecha" value="{{regTicket.fechaIngreso}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="hora">Hora:</label>
+            <input type="text" id="hora" value="{{regTicket.horaIngreso}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="hall">Hall:</label>
+            <input type="text" id="hall" value="{{regTicket.hall}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="equipo">Equipo:</label>
+            <input type="text" id="equipo" value="{{regTicket.nombreEquipo}}" readonly class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="evaluacion">Evaluación Técnica:</label>
+            <textarea name="evaluacionTecnica" id="" rows="10" class="form-control"
+              [(ngModel)]="regTicket.evaluacionTecnica"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="agregarEvaluacion(regTicket)">Guardar</button>
+    <button class="btn btn-danger" (click)="modalRef.hide()">Cancelar</button>
+  </div>
+</ng-template>
+<!-- Template modal para solucion -->
+<ng-template #solucion>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Evaluación del problema</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="text" id="fecha" value="{{regTicket.fechaIngreso}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="hora">Hora:</label>
+            <input type="text" id="hora" value="{{regTicket.horaIngreso}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="hall">Hall:</label>
+            <input type="text" id="hall" value="{{regTicket.hall}}" readonly class="form-control">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="equipo">Equipo:</label>
+            <input type="text" id="equipo" value="{{regTicket.nombreEquipo}}" readonly class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="evaluacion">Evaluación Técnica:</label>
+            <textarea name="evaluacionTecnica" id="" class="form-control" readonly
+              value="{{regTicket.evaluacionTecnica}}"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="resolucionTecnica">Solución Técnica:</label>
+            <textarea name="resolucionTecnica" id="" rows="10" class="form-control"
+              [(ngModel)]="regTicket.resolucionTecnica"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-md-6">
+          <p><strong>Estado Actual:</strong> {{regTicket.estadoTicket}} </p>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="estado">Cambia Estado:</label>
+          <select name="estado" id="estado" class="form-control" [(ngModel)]="regTicket.estadoTicket">
+            <option *ngFor="let varestado of estado"> {{varestado.estado}} </option>
+          </select>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="agregarSolucion(regTicket)">Guardar</button>
+    <button class="btn btn-danger" (click)="modalRef.hide()">Cancelar</button>
+  </div>
+</ng-template>
+
+<ng-template #editaCerrado>
+  <div class="modal-header">
+    <div class="modal-title">
+      <h3>Editar problema Cerrado</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="alert alert-primary" role="alert">
+      La edición de casos cerrados es al solo efecto de rectificar información sobre la evaluación técnica del equipo o
+      la resolución. <br>
+      El estado del incidente permanecerá CERRADO. Si desea cambiar el estado dirijasé al menu correspondiente.
+    </div>
+    <p>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label for="fecha">Fecha:</label>
+          <input type="text" class="form-control text-center" id="fecha" readonly value="{{regTicket.fechaIngreso}}">
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="hora">Hora:</label>
+          <input type="text" class="form-control text-center" id="hora" readonly value="{{regTicket.horaIngreso}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label for="hall">Hall:</label>
+          <input type="text" class="form-control text-center" id="hall" readonly value="{{regTicket.hall}}">
+        </div>
+        <div class="col-sm-6 form-group">
+          <label for="equipo">Equipo:</label>
+          <input type="text" class="form-control text-center" id="equipo" readonly value="{{regTicket.nombreEquipo}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="desperfecto">Desperfecto:</label>
+          <textarea name="desperfecto" id="desperfecto" rows="5" [(ngModel)]="regTicket.desperfecto" value="{{regTicket.desperfecto}}"
+            class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="evaluacion">Evaluación Técnica:</label>
+          <textarea name="evaluacionTecnica" id="evaluacion" rows="5" [(ngModel)]="regTicket.evaluacionTecnica" value="{{regTicket.evaluacionTecnica}}" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="resolucion">Resolución:</label>
+          <textarea name="resolucionTecnica" id="resolucion" rows="5" [(ngModel)]="regTicket.resolucionTecnica" value="{{regTicket.resolucionTecnica}}"
+            class="form-control"></textarea>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="actualizaCerrado(regTicket)">Actualizar datos</button>
+    <button (click)="modalRef.hide()" class="btn btn-secondary">Cerrar</button>
+  </div>
+</ng-template>

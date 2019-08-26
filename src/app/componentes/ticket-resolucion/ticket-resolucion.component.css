@@ -1,0 +1,12 @@
+.cerrado {
+    background-color: rgb(106, 124, 117);
+    font-style: oblique;
+}
+.pendiente {
+    background-color: chartreuse;
+    font-family: Arial;
+    font-size: 1rem;
+}
+.espera {
+    background-color: lightcyan;
+}

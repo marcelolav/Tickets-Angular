@@ -1,0 +1,17 @@
+<div>
+  <h2 class="text-center display-1">Sistema de Tickets</h2>
+  <h3 *ngIf="esUsuarioLogueado()" class="tipouser">Información de Usuario</h3>
+  <p *ngIf="esUsuarioLogueado()" class="tipouser">
+    Bienvenido {{ usuarioEmail }}, se encuentra logueado correctamente al sistema de tickets. <br>
+    Sitio : {{sitio}} <br>
+  </p>
+
+  <p class="tipouser" *ngIf="rolUsuario === 'Admin'">Rol: Administrador</p>
+  <p class="tipouser" *ngIf="rolUsuario === 'Tecnico'">Rol: Tecnico</p>
+  <p class="tipouser" *ngIf="rolUsuario === 'Basico'">Rol: Usuario Estandar</p>
+
+  <p *ngIf="!esUsuarioLogueado()" class="text-center display-3">
+    Identifiquese con el botón de Login para comenzar a utilizar este sistema. <br>
+    Requiere un usuario y password.
+  </p>
+</div>

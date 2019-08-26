@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="card">
+    <h3 class="card-title text-info text-center">¿Como inicio un nuevo Ticket?</h3>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <img src="../../../assets/ticket.png" class="img-responsive">
+        </div>
+        <div class="col-sm-9">
+          <h4 class="text-info">Para abrir un nuevo ticket deberá de llenar todos los campos de el siguiente formulario.
+            Usted podra verificar el estado de su ticket mediante el <strong> Informe de Estado de Ticket</strong> una
+            vez que complete y nos envie los siguientes datos. <br> Aseguresé de completar toda la información requerida
+            con el mayor detalle posible para la mas rápida solución a su problema.</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Card para completar la información -->
+  <div class="card">
+    {{ fechaAhora | date: 'HH:mm'}}
+  </div>
+  <div class="card">
+    <h3 class="card-title text-center">Reporte de Incidente</h3>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="fechaIngreso">Fecha:</label>
+            <input type="text" id="fechaIngreso" class="form-control text-center" name="fechaIngreso"
+              [(ngModel)]="regAltaTicket.fechaIngreso" readonly>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="form-group">
+            <label for="horaIngreso">Hora Ingreso:</label>
+            <input type="text" id="horaIngreso" class="form-control text-center" name="horaIngreso"
+              [(ngModel)]="regAltaTicket.horaIngreso" readonly>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="emailUsuario">Email:</label>
+            <input type="text" id="emailUsuario" class="form-control" name="emailUsuario"
+              value="{{regAltaTicket.emailUsuario}}" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="hall">Hall</label>
+            <select name="hall" id="hall" class="form-control" (change)="seleccionaHall($event.target.value)"
+              [(ngModel)]="regAltaTicket.hall">
+              <option *ngFor="let dato of hallArray"> {{dato.nombre}} </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="nombreEquipo">Equipo</label>
+            <select name="nombreEquipo" id="nombreEquipo" class="form-control" [(ngModel)]="regAltaTicket.nombreEquipo">
+              <option *ngFor="let dato of equipoFiltrado"> {{dato.nombreEquipo}} </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="form-group">
+            <label for="usuarioEquipo">Usuario:</label>
+            <input type="text" id="usuarioEquipo" class="form-control" name="usuarioEquipo"
+              [(ngModel)]="regAltaTicket.usuarioEquipo">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label for="desperfecto">Solicitud/Prevencion:</label>
+            <textarea name="desperfecto" id="desperfecto" cols="30" rows="5" class="form-control"
+              [(ngModel)]="regAltaTicket.desperfecto"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <button class="btn btn-primary btn-block" (click)="abrirTicket(regAltaTicket)">Abrir Ticket</button>
+        </div>
+
+        <div class="col-sm-6">
+          <button type="reset" class="btn btn-danger btn-block">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #completarTodo>
+  <div class="modal-body text-center">
+    <p> <strong>ERROR</strong></p>
+    <p> <strong> Por favor complete todos los campos necesarios para registrar el Ticket </strong></p>
+    <p>Debe completar toda la información lo mas precisa posible a los fines de dar solución a su problema</p>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cerrar</button>
+  </div>
+</ng-template>

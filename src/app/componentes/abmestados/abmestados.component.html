@@ -1,0 +1,76 @@
+<div class="container">
+  <h2>ABM - Estados de Tickets</h2>
+  <form (ngSubmit)="onSubmitEstado()">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="estado">Estado / Status:</label>
+          <input type="text" name="estado" id="estado" class="form-control" [(ngModel)]="regEstado.estado">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col mb-3">
+        <button type="submit" class="btn btn-success mr-3"> <i class="fas fa-save"></i> Guardar</button>
+        <button type="reset" class="btn btn-warning"> <i class="far fa-window-close"></i> Limpiar</button>
+      </div>
+    </div>
+  </form>
+  <table class="table mt-10">
+    <thead>
+      <tr>
+        <th>Nombre / Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of estado async">
+        <td class="d-none"> {{dt.id}} </td>
+        <td> {{dt.estado}} </td>
+        <td>
+          <button title="Editar Estado" class="btn btn-success mr-2" (click)="openModal(editarEstado, dt)"><i
+              class="fas fa-pencil-alt"></i></button>
+          <button title="Eliminar Estado" class="btn btn-danger" (click)="openModal(eliminarEstado, dt)"><i
+              class="far fa-trash-alt"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Editar Estado -->
+<ng-template #editarEstado>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edicion del Estado</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- Form para modificar el registro de hall  -->
+    <form class="col">
+      <div class="row">
+        <div class="form-group">
+          <label for="estado">Estado / Status</label>
+          <input type="text" name="estado" id="estado" class="form-control" [(ngModel)]="regEstado.estado">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modificarEstado(regEstado)">Guardar</button>
+    <button class="btn btn-danger" (click)="modalRef.hide()">Cancelar</button>
+  </div>
+</ng-template>
+
+<!-- Template de confirmacion para eliminar -->
+<ng-template #eliminarEstado>
+  <div class="modal-body text-center back-degradado">
+    <p> <strong> ESTA A PUNTO DE ELIMINAR UN REGISTRO DE ESTADO!</strong></p>
+    <p> <strong> ESTA ACCION NO SE PUEDE DESHACER!! </strong></p>
+    <p class="pelimina">Id: {{regEstado.id}}</p>
+    <p class="pelimina">Nombre: {{regEstado.estado}} </p>
+    <p>¿Está seguro de eliminar el registro seleccionado?</p>
+    <button type="button" class="btn btn-danger mr-4" (click)="borrarEstadoDefinitivo(regEstado)">Confirmar</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cancelar</button>
+  </div>
+</ng-template>

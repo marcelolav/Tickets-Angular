@@ -1,0 +1,92 @@
+<div class="container">
+  <h2>ABM - Halls (Estacion)</h2>
+  <form (ngSubmit)="onSubmit()" class="col">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" name="nombre" id="nombre" class="form-control" [(ngModel)]="regHall.nombre">
+        </div>
+      </div>
+      <div class="col">
+        <label for="observaciones">Observaciones</label>
+        <input type="text" name="observaciones" id="observaciones" class="form-control"
+          [(ngModel)]="regHall.observaciones">
+      </div>
+    </div>
+    <input type="submit" class="btn btn-success center-block btn-block" value="Guardar">
+  </form>
+  <button class="btn btn-success mt-3 mb-3" (click)="exportAs('pdf', 'landscape')"><i class="far fa-file-pdf"></i> Exportar PDF</button>
+</div>
+<div class="container">
+  <table class="table" id="tablaHalls">
+    <thead>
+      <tr>
+        <th class="d-none">ID</th>
+        <th>Nombre Hall</th>
+        <th>Observaciones</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of hall async">
+        <td class="d-none"> {{dt.id}} </td>
+        <td> {{dt.nombre}} </td>
+        <td> {{dt.observaciones}} </td>
+        <td>
+          <button title="Editar Hall" class="btn btn-success mr-2" (click)="openModal(editarHall, dt)"><i
+              class="fas fa-pencil-alt"></i></button>
+          <button title="Eliminar Hall" class="btn btn-danger" (click)="openModal(eliminarHall, dt)"><i
+              class="far fa-trash-alt"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal para editar el hall -->
+<ng-template #editarHall>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edicion del Hall</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- Form para modificar el registro de hall  -->
+    <form class="col">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" [(ngModel)]="regHall.nombre">
+          </div>
+        </div>
+        <div class="col">
+          <label for="observaciones">Observaciones</label>
+          <input type="text" name="observaciones" id="observaciones" class="form-control"
+            [(ngModel)]="regHall.observaciones">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modificarHall(regHall)">Guardar</button>
+    <button class="btn btn-danger" (click)="modalRef.hide()">Cancelar</button>
+  </div>
+</ng-template>
+
+<!-- Template de confirmacion para eliminar -->
+<ng-template #eliminarHall>
+  <div class="modal-body text-center back-degradado">
+    <p> <strong> ESTA A PUNTO DE ELIMINAR UN REGISTRO DE HALL!</strong></p>
+    <p class="pelimina">Id: {{regHall.id}}</p>
+    <p class="pelimina">Equipo: {{regHall.nombre}} </p>
+    <p class="pelimina">Hall: {{regHall.observaciones}} </p>
+    <p>¿Está seguro de eliminar el registro seleccionado?</p>
+    <button type="button" class="btn btn-danger mr-4" (click)="borrarHallDefinitivo(regHall)">Confirmar</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Cancelar</button>
+  </div>
+</ng-template>
+
+

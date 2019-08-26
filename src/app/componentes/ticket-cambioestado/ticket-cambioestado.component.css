@@ -1,0 +1,18 @@
+/* Casos evaluados, solucionados y cerrados */
+.cerrado {
+  background-color: cadetblue;
+  text-decoration-line: line-through;
+}
+
+/* Casos evaluados pero sin solucionar */
+.evaluado {
+  background-color: rgb(252, 112, 135);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+/* Casos en espera de repuestos */
+.pendiente {
+  background-color: rgb(206, 250, 103);
+  font-weight: bold;
+  text-transform: uppercase;
+}

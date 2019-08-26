@@ -1,0 +1,42 @@
+<div class="container">
+    <h3>Reporte de Halls</h3>
+    <div class="form-group">
+      <label>Buscar por:</label>
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="hallFiltro.nombre" placeholder="Nombre Hall">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="hallFiltro.observaciones" placeholder="Observaciones">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mr-2 mb-3" (click)="exportXLS()"><i class="fas fa-file-excel"></i> Excel</button>
+    <button class="btn btn-primary mb-3" (click)="exportAs('pdf', 'landscape')"><i class="far fa-file-pdf"></i> PDF</button>
+  </div>
+  
+  <table class="table" id="tablaHalls">
+    <thead>
+      <tr>
+        <th class="d-none" (click)="configuroOrden(idHall)">ID Hall<span [hidden]="reverse">▼</span
+          ><span [hidden]="!reverse">▲</span></th>
+        <th
+          (click)="configuroOrden('nombre')">
+          Hall <span *ngIf="reverse">▼</span><span *ngIf="!reverse">▲</span>
+        </th>
+        <th (click)="configuroOrden('observaciones')">
+          Observaciones
+            <span *ngIf="reverse">▼</span><span *ngIf="!reverse">▲</span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of datosHall | orderBy: orden : reverse : 'case-insensitive' | filterBy: hallFiltro">
+        <!-- <td> {{dt.idsitio}} </td> -->
+        <td> {{dt.nombre}} </td>
+        <td> {{dt.observaciones}} </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  

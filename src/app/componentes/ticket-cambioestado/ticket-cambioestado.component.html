@@ -1,0 +1,88 @@
+<div class="container">
+  <h3>Tickets iniciados sin respuesta:</h3>
+  <table class="table mt-10">
+    <thead>
+      <tr>
+        <th>Fecha Ingreso</th>
+        <th>Hora Ingreso</th>
+        <th>Hall</th>
+        <th>Equipo</th>
+        <th>Desperfecto</th>
+        <th>Estado Actual</th>
+        <th>ACCION</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of tickets" [ngClass]="{
+                                                  'cerrado':dt.estadoTicket === 'Cerrado',
+                                                  'evaluado':dt.estadoTicket === 'Evaluado',
+                                                  'pendiente':dt.estadoTicket === 'En espera de repuestos'
+                                                }">
+        <td class="d-none"> {{dt.id}} </td>
+        <td class="d-none"> {{dt.evaluacionTecnica}}</td>
+        <td class="d-none"> {{dt.resolucionTecnica}} </td>
+        <td> {{dt.fechaIngreso}} </td>
+        <td> {{dt.horaIngreso}} </td>
+        <td> {{dt.hall}} </td>
+        <td> {{dt.nombreEquipo}} </td>
+        <td> {{dt.desperfecto}} </td>
+        <td> {{dt.estadoTicket}} </td>
+        <td>
+          <button title="Cambiar Estado"  class="btn btn-success mr-2" (click)="openModal(cambioEstado, dt)" *ngIf="devuelvoRol()==='Admin'">
+            <i class="fas fa-pencil-alt"></i> Cambiar Estado
+          </button>
+          <p *ngIf="devuelvoRol()!=='Admin'">No habilitado</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #cambioEstado>
+  <div class="modal-header">
+    <div class="modal-title">
+      <h3>Cambiar Estado de Ticket</h3>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <label for="fecha">Fecha:</label>
+        <input type="text" class="form-control text-center" id="fecha" value="{{regTicket.fechaIngreso}}" readonly>
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="hora">Hora:</label>
+        <input type="text" class="form-control text-center" id="hora" value="{{regTicket.horaIngreso}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-6">
+        <label for="hall">Hall:</label>
+        <input type="text" class="form-control text-center" id="hall" value="{{regTicket.hall}}" readonly>
+      </div>
+      <div class="form-group col-sm-6">
+        <label for="equipo">Equipo:</label>
+        <input type="text" class="form-control text-center" id="equipo" value="{{regTicket.nombreEquipo}}" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="estadoActual">Estado Actual:</label>
+        <input type="text" id="estadoActual" class="form-control text-center" value="{{regTicket.estadoTicket}}"
+          readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-sm-12">
+        <label for="estado">Cambia Estado:</label>
+        <select name="estado" id="estado" class="form-control" [(ngModel)]="regTicket.estadoTicket">
+          <option *ngFor="let varestado of estado"> {{varestado.estado}} </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="cambiarEstado(regTicket, regTicket.estadoTicket)"> Cambiar Estado </button>
+    <button class="btn btn-secondary" (click)="modalRef.hide()">Cerrar</button>
+  </div>
+</ng-template>

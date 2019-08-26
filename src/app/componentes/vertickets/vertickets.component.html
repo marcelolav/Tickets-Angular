@@ -1,0 +1,54 @@
+<div class="container">
+  <h3>Reporte de Tickets</h3>
+  <div class="form-group">
+    <label>Filtrar por:</label>
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.estadoTicket" placeholder="Estado de Ticket">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.fechaIngreso" placeholder="Fecha de Ingreso">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.sitio" placeholder="Sitio">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.hall" placeholder="Hall">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.nombreEquipo" placeholder="Equipo">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="ticketFiltro.desperfecto" placeholder="Problema">
+      </div>
+    </div>
+    <button class="btn btn-primary mb-3 mt-3 mr-3" (click)="exportAsXLSX()"><i class="fas fa-file-excel"></i>
+      Excel</button>
+    <button class="btn btn-primary mb-3 mt-3" (click)="exportAs('pdf', 'landscape')"><i class="far fa-file-pdf"></i>
+      PDF</button>
+  </div>
+
+  <table class="table" id="tablaTickets">
+    <thead>
+      <tr>
+        <th class="d-none">ID</th>
+        <th>Estado</th>
+        <th>Fec. Ini.</th>
+        <th>Sitio</th>
+        <th>Hall</th>
+        <th>Equipo</th>
+        <th>Problema</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of datostickets | filterBy: ticketFiltro">
+        <td class="d-none"> {{dt.id}} </td>
+        <td> {{dt.estadoTicket}} </td>
+        <td> {{dt.fechaIngreso}} </td>
+        <td> {{dt.sitio}} </td>
+        <td> {{dt.hall}} </td>
+        <td> {{dt.nombreEquipo}} </td>
+        <td> {{dt.desperfecto}} </td>
+      </tr>
+    </tbody>
+  </table>

@@ -1,0 +1,49 @@
+<div class="container">
+    <h3>Reporte de Sitios</h3>
+    <div class="form-group">
+      <label>Buscar por:</label>
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="sitioFiltro.nombre" placeholder="Nombre del Sitio">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="sitioFiltro.responsable" placeholder="Responsable">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" [(ngModel)]="sitioFiltro.telefono" placeholder="Teléfono">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="sitioFiltro.ubicacion" placeholder="Ubicación">
+        </div>
+        <div class="col">
+          <input type="text" class="form-control" [(ngModel)]="sitioFiltro.detalles" placeholder="Observaciones">
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mb-3 mr-3" (click)="exportAsXLSX()"><i class="fas fa-file-excel"></i> Excel</button>
+    <button class="btn btn-primary mb-3" (click)="exportAs('pdf', 'landscape')"><i class="far fa-file-pdf"></i> PDF</button>
+  </div>
+  
+  <table class="table" id="tablaSitios">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Responsable</th>
+        <th>Teléfono</th>
+        <th>Ubicación</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of datositio | filterBy: sitioFiltro">
+        <!-- <td> {{dt.idsitio}} </td> -->
+        <td> {{dt.nombre}} </td>
+        <td> {{dt.responsable}} </td>
+        <td> {{dt.telefono}} </td>
+        <td> {{dt.ubicacion}} </td>
+        <td> {{dt.detalles}} </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  

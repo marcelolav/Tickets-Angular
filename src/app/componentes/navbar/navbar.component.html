@@ -1,0 +1,104 @@
+<!-- Inicio de navegacion principal arriba fijo. Ver css asociado con la clase -->
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+
+  <!-- Brand Logo del sistema (aca puede ir imagen pequeña) -->
+  <a class="navbar-brand" id="imagenCubo" routerLink="/">
+    <img src="../../../assets/logobrand.png" width="40" height="40" alt="Tickets-App">
+    TicketsAPP
+  </a>
+  <!-- Boton o link para ir a pagina principal. -->
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/"><i class="fas fa-home"></i> Inicio <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <!-- Dropdown usuario logueado Operaciones -->
+    <div class="btn-group" dropdown *ngIf="isLogged">
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle botlog mr-4"
+              aria-controls="dropdown-basic">
+        Operaciones <span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" routerLink='ticketnew'>Alta de Ticket</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='verTickets'>Reporte de Tickets</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteHalls'>Reporte de Halls</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteEquipos'>Reporte de Equipos</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteSitios'>Reporte de Sitios</a></li>
+      </ul>
+    </div>
+    <!-- Menu para administradores solamente -->
+    <div class="btn-group" dropdown *ngIf="isLogged && devolverRol() === 'Admin'">
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle botlog mr-4"
+              aria-controls="dropdown-basic">
+        Administrador <span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+          role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" routerLink='abmSitios'>ABM Sitios</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='abmHalls'>ABM Halls</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='abmEquipos'>ABM Equipos</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='abmEstados'>ABM Estados Tickets</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='abmUsuarios'>Registro de Usuarios</a></li>
+      </ul>
+    </div>
+    <!-- Menu para tecnicos solamente -->
+    <div class="btn-group" dropdown *ngIf="devolverRol() === 'Tecnico'">
+      <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle botlog mr-4"
+              aria-controls="dropdown-basic">
+        Técnico <span class="caret"></span>
+      </button>
+      <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+        <li role="menuitem"><a class="dropdown-item" routerLink='ticketres'>Resolución de Tickets</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='ticketCE'>Cambio de Estado Tickets</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteEquipos'>Reporte de Equipos</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteHalls'>Reporte de Halls</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='reporteSitios'>Reporte de Sitios</a></li>
+        <li role="menuitem"><a class="dropdown-item" routerLink='planillaDiaria'>Planilla de Servicios Diaria</a></li>
+      </ul>
+    </div>
+    
+        <!-- Cuando no esta logueado poner boton para loguearse a la derecha (ML-Auto) -->
+    <ul class="navbar-nav ml-auto" *ngIf="!isLogged">
+      <li class="nav-item">
+
+        <button type="button" class="btn btn-primary" (click)="openModal(template)"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+
+        <ng-template #template>
+          <div class="modal-header">
+            <h4 class="modal-title pull-left">Ingreso al sistema</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <p>Ingrese sus datos de usuario y contraseña para acceder al sistema de Tickets.</p>
+
+          <form #formLogin="ngForm" (submit)="onLogin(email, password, sitio)">
+              <h1 class="h3 mb-3 font-weight-normal" *ngIf="!isError">Login</h1>
+              <div class="form-group">
+                <input [(ngModel)]="email" type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+              </div>
+              <div class="form-group">
+                <input [(ngModel)]="password" type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+              </div>
+              <select [(ngModel)]="sitio" id="sitio" class="form-control mt-4 mb-4" name="sitio" required>
+                <option [value]="item.nombre"  *ngFor="let item of sitiosDisponibles">{{item.nombre}}</option>
+              </select>
+              <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+            </form>
+
+          </div>
+        </ng-template>
+        <!-- <a class="btn btn-primary botlog" (click)="onLogin()"><i class="far fa-user"></i> Login</a> -->
+      </li>
+    </ul>
+    <!-- Cuando esta logueado poner item para desloguearse en la derecha -->
+    <ul class="navbar-nav ml-auto" *ngIf="isLogged">
+      <li class="nav-item">
+        <a class="btn btn-primary botsalir" (click)="onLogout()"><i class="fas fa-times"></i> Salir</a>
+      </li>
+    </ul>
+  </div> <!-- Fin Div Menu general -->
+</nav> <!-- Fin de navegacion -->

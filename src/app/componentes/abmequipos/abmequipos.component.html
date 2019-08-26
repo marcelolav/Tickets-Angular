@@ -1,0 +1,100 @@
+<div class="container">
+  <h2>ABM - Equipos (General)</h2>
+  <form (ngSubmit)="onSubmit()" class="col">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <!-- Cambiar x select apuntando a ngmodel arregloHalls -->
+          <label for="hall">Hall</label>
+          <select class="form-control" id="hall">
+            <option name="hall" class="form-control" [(ngModel)]="regEquipo.hall" *ngFor="let dt of arregloHall"> {{dt.nombre}} </option>
+          </select>
+          <!-- <input
+            type="text"
+            name="hall"
+            id="hall"
+            class="form-control"
+            [(ngModel)]="regEquipo.hall"
+            > -->
+        </div>
+      </div>
+      <div class="col">
+        <label for="nombreEquipo">Nombre Equipo</label>
+        <input type="text" name="nombreEquipo" id="nombreEquipo" class="form-control"
+          [(ngModel)]="regEquipo.nombreEquipo">
+      </div>
+    </div>
+    <input type="submit" class="btn btn-success center-block btn-block" value="Guardar">
+    <button (click)="botonFiltroPrueba(regEquipo.hall)">Test console</button>
+  </form>
+  <hr>
+  <table class="table">
+    <thead>
+
+      <tr>
+        <th class="d-none">ID</th>
+        <th>Hall</th>
+        <th>Nombre Equipo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dt of equipo async">
+        <td class="d-none"> {{dt.id}} </td>
+        <td> {{dt.hall}} </td>
+        <td> {{dt.nombreEquipo}} </td>
+        <td>
+          <button title="Editar Equipo" class="btn btn-success mr-2" (click)="openModal(editarEquipo, dt)"><i
+              class="fas fa-pencil-alt"></i></button>
+          <button title="Eliminar Equipo" class="btn btn-danger" (click)="openModal(eliminarModal, dt)"><i
+              class="far fa-trash-alt"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- Modal para editar el equipo -->
+<ng-template #editarEquipo>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Edicion del equipo</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- Form para modificar el registro de equipo  -->
+    <form class="col">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="hall">Hall</label>
+            <input type="text" name="hall" id="hall" class="form-control" [(ngModel)]="regEquipo.hall">
+          </div>
+        </div>
+        <div class="col">
+          <label for="nombreEquipo">Nombre Equipo</label>
+          <input type="text" name="nombreEquipo" id="nombreEquipo" class="form-control"
+            [(ngModel)]="regEquipo.nombreEquipo">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" (click)="modificarEquipo(regEquipo)">Guardar</button>
+    <button class="btn btn-danger" (click)="modalRef.hide()">Cancelar</button>
+  </div>
+</ng-template>
+
+<!-- Template de confirmacion para eliminar -->
+<ng-template #eliminarModal>
+  <div class="modal-body text-center back-degradado">
+    <p> <strong> ESTA A PUNTO DE ELIMINAR UN REGISTRO DE EQUIPO!</strong></p>
+    <p class="pelimina">Id: {{regEquipo.id}}</p>
+    <p class="pelimina">Equipo: {{regEquipo.nombreEquipo}} </p>
+    <p class="pelimina">Hall: {{regEquipo.hall}} </p>
+    <p>¿Está seguro de eliminar el registro seleccionado?</p>
+    <button type="button" class="btn btn-default" (click)="eliminarEquipo(regEquipo)">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+  </div>
+</ng-template>
+

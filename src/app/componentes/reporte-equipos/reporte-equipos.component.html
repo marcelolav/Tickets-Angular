@@ -1,0 +1,41 @@
+<div class="container">
+  <h3>Reporte de Equipos</h3>
+  <div class="form-group">
+    <label>Buscar por:</label>
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="equipoFiltro.hall" placeholder="Ubicacion Hall">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]="equipoFiltro.nombreEquipo" placeholder="Nombre del Equipo">
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary mb-3 mr-3" (click)="exportXLS()"><i class="fas fa-file-excel"></i> Excel</button>
+  <button class="btn btn-primary mb-3" (click)="exportPDF('pdf', 'landscape')"><i class="far fa-file-pdf"></i> PDF</button>
+</div>
+
+<table class="table" id="tablaEquipos">
+  <thead>
+    <tr>
+      <th (click)="configuroOrden(idSitio)">ID Equipo<span [hidden]="reverse">▼</span
+        ><span [hidden]="!reverse">▲</span></th>
+      <th
+        (click)="configuroOrden('hall')">
+        Hall <span *ngIf="reverse">▼</span><span *ngIf="!reverse">▲</span>
+      </th>
+      <th (click)="configuroOrden('nombreEquipo')">
+        Equipo
+          <span *ngIf="reverse">▼</span><span *ngIf="!reverse">▲</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let dt of datosEquipo | orderBy: orden : reverse : 'case-insensitive' | filterBy: equipoFiltro">
+      <!-- <td> {{dt.idsitio}} </td> -->
+      <td> {{dt.hall}} </td>
+      <td> {{dt.nombreEquipo}} </td>
+    </tr>
+  </tbody>
+</table>
+
