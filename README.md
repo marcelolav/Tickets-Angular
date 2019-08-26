@@ -2,25 +2,56 @@
 
 Proyecto generado con  [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
 Desarrollo por A. Gullifa y M. Lavandeira (c)2019.  Todos los derechos reservados.
+## Detalles para la instalacion:
 
-## Dependencias
+1) Crear una carpeta dentro de src/environments y dentro de ella crear los archivos siguientes ya que son necesarios para configuracion del proyecto:
 
-Usar dentro de la carpeta del proyecto el comando:
+environment.prod.ts  
+environment.ts
 
-npm i --save (nombre de modulo)
+2) Modelo de environment para este proyecto:
 
-## Desarrollo de servidor
+```
+export const environment = {
+  production: false,
+  firebaseConfig: {
+      apiKey: 'xxxxxxxxxxxxxxxx',
+      authDomain: 'xxxxxxxxxxxxxxxx',
+      databaseURL: 'xxxxxxxxxxxxxxxx',
+      projectId: 'xxxxxxxxxxxxxxxx',
+      storageBucket: '',
+      messagingSenderId: 'xxxxxxxxxxxxxxxx',
+      appId: 'xxxxxxxxxxxxxxxx'
+    }
+};
+```
+Los xxxx son los datos de su propio firestore o firebase.  Si no sabe donde obtenerlos dirijase a la [documentación de Firebase](https://firebase.google.com/)
 
-Ejecutar `ng serve` para desarrollo de servidor. Navegar desde 
+Si desea saber mas acerca de Angular dirijasé a la [documentación de Angular](https://angular.io/docs)
 
-`http://localhost:4200/`
 
-## Agregado de codigos (scaffolding)
+3) Instale las dependencias:
 
-Ejecutar `ng generate component component-name` para generar nuevo component. 
-Tambien puede usar `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+``` 
+npm install 
+```
+4) Luego de esto ya se encuentra en posicion de abrir un servidor de desarrollo para testear el producto:
 
-## Compilacion de codigo final
+``` npm start ``` 
+o bien 
+``` ng serve -open ```
 
-Ejecutar `ng build` para crear el codigo final destinado a produccion.  No olvide corregir el archivo environment.ts para dejar en produccion el sistema. Las variables del archivo .prod seran las que tome al poner el sistema en produccion.
+Esto creará un servidor en la dirección localhost,  verifique los mensajes en pantalla para saber en que dirección y puerto se alojó la aplicacion.  
+
+### Importante:
+
+Cuando se abre un servidor de desarrollo en la máquina local puede que de algun tipo de advertencia desde el firewall, verifique el mensaje y decida en consecuencia.  Siempre necesitará un puerto disponible para la escucha de la app. 
+
+Para consultas, reporte de errores o bien si desea unirse al proyecto puede:
+
+[Comunicarse con desarrollo](mailto:marcelo.lavandeira@gmail.com)	
+
+&copy; 2019 SystemsWest Argentina
+
+Buenos Aires, República Argentina
 
